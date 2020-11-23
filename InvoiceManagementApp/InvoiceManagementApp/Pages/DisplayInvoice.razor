@@ -1,0 +1,34 @@
+﻿@page "/displayinvoice"
+@inject Manager manager
+
+<div class="d-flex justify-content-center">
+    <img src="/images/logo.png" />
+</div>
+<br />
+<br />
+
+<br />
+<br />
+<br />
+<br />
+<table class="table table-light">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Url</th>
+            <th scope="col">Invoice Code</th>
+        </tr>
+    </thead>
+    @foreach (var item in manager)
+    {
+    <tbody>
+        <tr>
+            <th scope="row">@item.Value</th>
+            <th scope="row">@item.Key</th>
+        </tr>
+    </tbody>
+    }
+</table>
+
+
+@code {
+}

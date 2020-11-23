@@ -1,0 +1,43 @@
+﻿@page "/findinvoice"
+@inject Manager manager
+
+<div class="d-flex justify-content-center">
+    <img src="/images/logo.png" />
+</div>
+<br />
+<br />
+
+<div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-start">
+        <input class="form-control btn-outline-purple mr-4" @bind="codeSearch" type="search" placeholder="Search Invoice" aria-label="Search">
+        <button class="btn btn-outline-purple" @onclick="Search" type="submit">Search</button>
+    </div>
+</div>
+<br />
+
+<div class="d-flex justify-content-center">
+    <p class="btn-purple">Enter invoice code to find specific invoice.</p>
+</div>
+
+
+<div class="d-flex justify-content-center">
+    <div class="form-control h-25" readonly>
+        <p>
+            @if (!String.IsNullOrEmpty(found))
+            {
+                @found
+            }
+        </p>
+    </div>
+</div>
+
+
+
+@code {
+    private void Search()
+    {
+        found = manager.FindURL(codeSearch);
+    }
+    private string codeSearch = string.Empty;
+    private string found = string.Empty;
+}

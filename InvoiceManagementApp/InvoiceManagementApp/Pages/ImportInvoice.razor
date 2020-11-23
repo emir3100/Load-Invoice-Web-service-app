@@ -1,0 +1,63 @@
+﻿@page "/importinvoice"
+@inject Manager manager
+@using InvoiceManagementApp.Service
+@inject IFileUpload fileUpload
+
+<div class="d-flex justify-content-center">
+    <img src="/images/logo.png" />
+</div>
+
+<br />
+<br />
+<div class="d-flex justify-content-center">
+    <div class="border-1 custom-file">
+        <InputFile class="btn btn-outline-purple-new p-1 mr-4" id="inputFileName" OnChange="HandleFileSelected"></InputFile>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<table class="table table-light">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Index</th>
+            <th scope="col">Path</th>
+        </tr>
+    </thead>
+    @if (Directory.Exists(uploadFolderPath))
+    {
+        
+        files = Directory.GetFiles(uploadFolderPath, @"*.txt", SearchOption.TopDirectoryOnly);
+        int i = 0;
+        foreach (var item in files)
+        {
+            <tbody>
+                <tr>
+                    <th scope="row">@i</th>
+                    <th scope="row">@item.ToString()</th>
+                </tr>
+            </tbody>
+            i += 1;
+            manager.LoadFromFile(item);
+        }
+    }   
+</table>
+
+
+
+@code {
+    public string[] files;
+
+
+    IFileListEntry file;
+    string uploadFolderPath = $"{Assembly.GetExecutingAssembly().Location}/../../../../Upload/";
+    async Task HandleFileSelected(IFileListEntry[] files)
+    {
+        file = files.FirstOrDefault();
+        if (file != null && file.Type == "text/plain")
+        {
+            await fileUpload.UploadAsync(file);
+        }
+    }
+}
